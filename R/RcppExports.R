@@ -13,18 +13,6 @@ ELtest <- function(x, c, lhs, rhs, threshold, maxit = 1e4L, abstol = 1e-8) {
     .Call(`_elgbd_ELtest`, x, c, lhs, rhs, threshold, maxit, abstol)
 }
 
-EL_lm <- function(data, intercept, maxit, abstol, threshold) {
-    .Call(`_elgbd_EL_lm`, data, intercept, maxit, abstol, threshold)
-}
-
-EL_mean <- function(par, x, maxit, abstol, threshold) {
-    .Call(`_elgbd_EL_mean`, par, x, maxit, abstol, threshold)
-}
-
-WEL_mean <- function(par, x, w, maxit, abstol, threshold) {
-    .Call(`_elgbd_WEL_mean`, par, x, w, maxit, abstol, threshold)
-}
-
 EL_confint <- function(x, type, init, cutoff, idx, maxit, abstol, threshold) {
     .Call(`_elgbd_EL_confint`, x, type, init, cutoff, idx, maxit, abstol, threshold)
 }
@@ -39,5 +27,9 @@ pairwise <- function(x, c, control = 0L, k = 1L, level = 0.05, interval = TRUE, 
 
 EL_test <- function(method, par, x, maxit, abstol, threshold) {
     .Call(`_elgbd_EL_test`, method, par, x, maxit, abstol, threshold)
+}
+
+get_max_threads <- function() {
+    .Call(`_elgbd_get_max_threads`)
 }
 

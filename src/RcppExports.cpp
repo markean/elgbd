@@ -57,52 +57,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// EL_lm
-Rcpp::List EL_lm(const Eigen::MatrixXd& data, const bool intercept, const int maxit, const double abstol, const Rcpp::Nullable<double> threshold);
-RcppExport SEXP _elgbd_EL_lm(SEXP dataSEXP, SEXP interceptSEXP, SEXP maxitSEXP, SEXP abstolSEXP, SEXP thresholdSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const Eigen::MatrixXd& >::type data(dataSEXP);
-    Rcpp::traits::input_parameter< const bool >::type intercept(interceptSEXP);
-    Rcpp::traits::input_parameter< const int >::type maxit(maxitSEXP);
-    Rcpp::traits::input_parameter< const double >::type abstol(abstolSEXP);
-    Rcpp::traits::input_parameter< const Rcpp::Nullable<double> >::type threshold(thresholdSEXP);
-    rcpp_result_gen = Rcpp::wrap(EL_lm(data, intercept, maxit, abstol, threshold));
-    return rcpp_result_gen;
-END_RCPP
-}
-// EL_mean
-Rcpp::List EL_mean(const Eigen::Map<Eigen::VectorXd>& par, const Eigen::Map<Eigen::MatrixXd>& x, const int maxit, const double abstol, const Rcpp::Nullable<double> threshold);
-RcppExport SEXP _elgbd_EL_mean(SEXP parSEXP, SEXP xSEXP, SEXP maxitSEXP, SEXP abstolSEXP, SEXP thresholdSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const Eigen::Map<Eigen::VectorXd>& >::type par(parSEXP);
-    Rcpp::traits::input_parameter< const Eigen::Map<Eigen::MatrixXd>& >::type x(xSEXP);
-    Rcpp::traits::input_parameter< const int >::type maxit(maxitSEXP);
-    Rcpp::traits::input_parameter< const double >::type abstol(abstolSEXP);
-    Rcpp::traits::input_parameter< const Rcpp::Nullable<double> >::type threshold(thresholdSEXP);
-    rcpp_result_gen = Rcpp::wrap(EL_mean(par, x, maxit, abstol, threshold));
-    return rcpp_result_gen;
-END_RCPP
-}
-// WEL_mean
-Rcpp::List WEL_mean(const Eigen::Map<Eigen::VectorXd>& par, const Eigen::Map<Eigen::MatrixXd>& x, const Eigen::Map<Eigen::ArrayXd>& w, const int maxit, const double abstol, const Rcpp::Nullable<double> threshold);
-RcppExport SEXP _elgbd_WEL_mean(SEXP parSEXP, SEXP xSEXP, SEXP wSEXP, SEXP maxitSEXP, SEXP abstolSEXP, SEXP thresholdSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const Eigen::Map<Eigen::VectorXd>& >::type par(parSEXP);
-    Rcpp::traits::input_parameter< const Eigen::Map<Eigen::MatrixXd>& >::type x(xSEXP);
-    Rcpp::traits::input_parameter< const Eigen::Map<Eigen::ArrayXd>& >::type w(wSEXP);
-    Rcpp::traits::input_parameter< const int >::type maxit(maxitSEXP);
-    Rcpp::traits::input_parameter< const double >::type abstol(abstolSEXP);
-    Rcpp::traits::input_parameter< const Rcpp::Nullable<double> >::type threshold(thresholdSEXP);
-    rcpp_result_gen = Rcpp::wrap(WEL_mean(par, x, w, maxit, abstol, threshold));
-    return rcpp_result_gen;
-END_RCPP
-}
 // EL_confint
 Eigen::MatrixXd EL_confint(const Eigen::Map<Eigen::MatrixXd>& x, const std::string type, const Eigen::Map<Eigen::VectorXd>& init, const double cutoff, const std::vector<int>& idx, const int maxit, const double abstol, const Rcpp::Nullable<double> threshold);
 RcppExport SEXP _elgbd_EL_confint(SEXP xSEXP, SEXP typeSEXP, SEXP initSEXP, SEXP cutoffSEXP, SEXP idxSEXP, SEXP maxitSEXP, SEXP abstolSEXP, SEXP thresholdSEXP) {
@@ -177,18 +131,26 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// get_max_threads
+int get_max_threads();
+RcppExport SEXP _elgbd_get_max_threads() {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    rcpp_result_gen = Rcpp::wrap(get_max_threads());
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_elgbd_EL_eval", (DL_FUNC) &_elgbd_EL_eval, 4},
     {"_elgbd_WEL_eval", (DL_FUNC) &_elgbd_WEL_eval, 5},
     {"_elgbd_ELtest", (DL_FUNC) &_elgbd_ELtest, 7},
-    {"_elgbd_EL_lm", (DL_FUNC) &_elgbd_EL_lm, 5},
-    {"_elgbd_EL_mean", (DL_FUNC) &_elgbd_EL_mean, 5},
-    {"_elgbd_WEL_mean", (DL_FUNC) &_elgbd_WEL_mean, 6},
     {"_elgbd_EL_confint", (DL_FUNC) &_elgbd_EL_confint, 8},
     {"_elgbd_EL_confint2", (DL_FUNC) &_elgbd_EL_confint2, 7},
     {"_elgbd_pairwise", (DL_FUNC) &_elgbd_pairwise, 13},
     {"_elgbd_EL_test", (DL_FUNC) &_elgbd_EL_test, 6},
+    {"_elgbd_get_max_threads", (DL_FUNC) &_elgbd_get_max_threads, 0},
     {NULL, NULL, 0}
 };
 

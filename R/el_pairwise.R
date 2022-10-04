@@ -57,7 +57,6 @@ el_pairwise <- function(formula,
                         nthreads = 1L,
                         maxit = 10000L,
                         abstol = 1e-08) {
-  .Deprecated(msg = "`el_pairwise()` was deprecated in melt 1.5.2.")
   alpha <- validate_alpha(alpha)
   B <- validate_b(B)
   max_threads <- get_max_threads()
@@ -132,7 +131,7 @@ el_pairwise <- function(formula,
   ## Pairwise comparisons
   out <- pairwise(gbd$model_matrix, gbd$incidence_matrix,
     control = ctrl, k, alpha, interval = TRUE,
-    method, B, nthreads, th = 50, maxit, abstol
+    method, B, nthreads, threshold = 50, maxit, abstol
   )
   out$trt <- gbd$trt
   out$control <- control

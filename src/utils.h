@@ -3,6 +3,8 @@
 
 #include <RcppEigen.h>
 
+int get_max_threads();
+
 std::vector<std::array<int, 2>> comparison_pairs(
         const int p, const int control);
 

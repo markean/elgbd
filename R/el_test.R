@@ -24,7 +24,12 @@
 #'
 #' @importFrom stats reshape
 #' @export
-el_test <- function(formula, data, lhs, rhs = NULL, maxit = 1e04, abstol = 1e-8) {
+el_test <- function(formula,
+                    data,
+                    lhs,
+                    rhs = NULL,
+                    maxit = 1e+04,
+                    abstol = 1e-08) {
   ## check formula
   f <- attributes(terms(formula))
   if (any(
@@ -110,34 +115,7 @@ el_test <- function(formula, data, lhs, rhs = NULL, maxit = 1e04, abstol = 1e-8)
   out
 }
 
-el_test2 <- function(object, rhs, control = list())
-{
-  if (!inherits(object, "el_test"))
-    stop("invalid 'object' supplied")
-  if (is.null(object$data.matrix))
-    stop("'object' has no 'data.matrix'; fit the model with 'keep.data' = TRUE")
-  p <- object$df
-  if (missing(rhs)) {
-    rhs <- rep(0, p)
-  } else {
-    if (!is.numeric(rhs) || any(!is.finite(rhs)))
-      stop("'rhs' must be a finite numeric vector")
-    if (length(rhs) != p)
-      stop("'rhs' and 'object' have incompatible dimensions")
-  }
-  # if (missing(lhs))
-  #   lhs <- diag(nrow = p)
-
-  ctrl <- object$optim$control
-  ctrl[names(control)] <- control
-  optcfg <- check_control(ctrl)
-  out <- EL_test(object$optim$type, rhs, object$data.matrix,
-                 optcfg$maxit, optcfg$abstol, optcfg$threshold)
-  class(out) <- class(object)
-  out
-}
-
-#' @importFrom stats complete.cases qchisq
+#' @importFrom stats coef complete.cases qchisq
 confint.el_test <- function(object, parm, level = 0.95, ...) {
   cf <- coef(object)
   pnames <- if (is.null(names(cf))) seq(length(cf)) else names(cf)
