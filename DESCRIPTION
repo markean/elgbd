@@ -4,10 +4,11 @@ Title: Multiple Empirical Likelihood Tests
 Version: 0.9.0
 Authors@R: 
     person("Eunseop", "Kim", , "kim.7302@osu.edu", role = c("aut", "cre"))
-Description: Empirical likelihood-based multiple testing for the analysis
-    of experimental designs.  Details of the testing procedures are given
-    in Kim et al. (2021) <arxiv:2112.09206>. Additional functions for
-    regression analysis are included.
+Description: Performs hypothesis testing for general block designs with
+    empirical likelihood. The core computational routines are implemented
+    using the 'Eigen' C++ library and 'RcppEigen' interface, with OpenMP
+    for parallel computation.  Details of the testing procedures are given
+    in Kim, MacEachern, and Peruggia (2021) <arxiv:2112.09206>.
 License: GPL (>= 2)
 URL: https://github.com/markean/elgbd
 BugReports: https://github.com/markean/elgbd/issues
