@@ -2,62 +2,80 @@
 % Please edit documentation in R/el_pairwise.R
 \name{el_pairwise}
 \alias{el_pairwise}
-\title{Empirical likelihood pairwise comparisons}
+\title{Pairwise comparisons for general block designs}
 \usage{
 el_pairwise(
   formula,
   data,
   control = NULL,
-  k = 1,
+  k = 1L,
   alpha = 0.05,
   method = c("AMC", "NB"),
   B,
-  nthread = 1,
-  progress = TRUE,
-  maxit = 10000,
+  nthreads = 1L,
+  maxit = 10000L,
   abstol = 1e-08
 )
 }
 \arguments{
-\item{formula}{A formula object. It must specify variables for response, treatment, and block as 'response ~ treatment | block'. Note that the use of vertical bar (|) separating treatment and block.}
+\item{formula}{An object of class [`formula`] (or one that can be coerced to
+that class) for a symbolic description of the model to be fitted. It must
+specify variables for response, treatment, and block as 'response ~
+treatment | block'. Note that the use of vertical bar (|) separating
+treatment and block.}
 
-\item{data}{A data frame containing the variables in the formula.}
+\item{data}{A data frame, list or environment (or object coercible by
+[as.data.frame()] to a data frame) containing the variables in `formula`.}
 
-\item{control}{Optional character specifying the treatment for comparisons with control.}
+\item{control}{An optional single character that specifies the treatment for
+comparisons with control.}
 
-\item{k}{Single integer for \eqn{k} in \eqn{k}-FWER. Defaults to 1.}
+\item{k}{A single integer for \eqn{k} in \eqn{k}-FWER. Defaults to 1.}
 
-\item{alpha}{Level of the test. Defaults to 0.05.}
+\item{alpha}{A single numeric for the overall significance level. Defaults to
+`0.05`.}
 
-\item{method}{Single character for the procedure to be used; either 'AMC' or 'NB' is supported. Defaults to 'AMC'.}
+\item{method}{A single character for the procedure to be used; either `AMC`
+or `NB` is supported. Defaults to `AMC`.}
 
-\item{B}{Number of Monte Carlo samples for the AMC (number of bootstrap replicates for the NB).}
+\item{B}{A single integer for the number of Monte Carlo samples for the AMC
+(number of bootstrap replicates for the NB).}
 
-\item{nthread}{Number of threads to be used with OpenMP. Only applied when the NB is chosen as the method. Defaults to 1.}
+\item{nthreads}{A single integer for the number of threads for parallel
+computation via OpenMP (if available). Defaults to `1`.}
 
-\item{progress}{If TRUE, will show progress status.}
+\item{maxit}{A single integer for the maximum number of iterations for
+constrained minimization of empirical likelihood. Defaults to `10000`.}
 
-\item{maxit}{Maximum number of iterations for optimization. Defaults to 10000.}
-
-\item{abstol}{Absolute convergence tolerance for optimization. Defaults to 1e-08.}
+\item{abstol}{A single numeric for the the absolute convergence tolerance for
+optimization. Defaults to `1e-08`.}
 }
 \value{
 A list with class \code{c("pairwise", "melt")}.
 }
 \description{
-Tests all pairwise comparisons or comparisons with control for general block designs. Two single step asymptotic \eqn{k}-FWER (generalized family-wise error rate) controlling procedures are available: asymptotic Monte Carlo (AMC) and nonparametric bootstrap (NB).
+Tests all pairwise comparisons or comparisons with control for
+ general block designs. Two single step asymptotic \eqn{k}-FWER (generalized
+ family-wise error rate) controlling procedures are available: asymptotic
+ Monte Carlo (AMC) and nonparametric bootstrap (NB).
+
+\emph{This function is deprecated and will be removed in a future release.}
 }
 \examples{
-## all pairwise comparisons
+\dontrun{
+# All pairwise comparisons
 data("clothianidin")
-el_pairwise(clo ~ trt | blk, clothianidin, B = 10000)
+el_pairwise(clo ~ trt | blk, data = clothianidin, B = 1000)
 
-## comparisons with control
-el_pairwise(clo ~ trt | blk, clothianidin, control = "Naked", method = "NB", B = 1000)
-
+# Comparisons with control
+el_pairwise(clo ~ trt | blk,
+  data = clothianidin, control = "Naked",
+  method = "NB", B = 500
+)
+}
 }
 \references{
-Kim, E., MacEachern, S., and Peruggia, M., (2021),
-"Empirical Likelihood for the Analysis of Experimental Designs,"
-\href{https://arxiv.org/abs/2112.09206}{arxiv:2112.09206}.
+Kim E, MacEachern S, Peruggia M (2021).
+  “Empirical Likelihood for the Analysis of Experimental Designs.”
+  arxiv:2112.09206. URL <https://arxiv.org/abs/2112.09206>.
 }
