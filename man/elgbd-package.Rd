@@ -6,7 +6,7 @@
 \alias{elgbd-package}
 \title{elgbd: Empirical Likelihood for General Block Designs}
 \description{
-Performs hypothesis testing for general block designs with empirical likelihood. The core computational routines are implemented using the 'Eigen' C++ library and 'RcppEigen' interface, with OpenMP for parallel computation. Details of the testing procedures are given in Kim, MacEachern, and Peruggia (2023) \doi{10.1080/10485252.2023.2206919}.
+Performs hypothesis testing for general block designs with empirical likelihood. The core computational routines are implemented using the 'Eigen' C++ library and 'RcppEigen' interface, with OpenMP for parallel computation. Details of the methods are given in Kim, MacEachern, and Peruggia (2023) \doi{10.1080/10485252.2023.2206919}. This work was supported by the U.S. National Science Foundation under Grants No. SES-1921523 and DMS-2015552.
 }
 \references{
 Kim E, MacEachern SN, Peruggia M (2023).

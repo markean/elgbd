@@ -5,32 +5,42 @@
 
 <!-- badges: start -->
 
-[![Project Status: Suspended – Initial development has started, but
-there has not yet been a stable, usable release; work has been stopped
-for the time being but the author(s) intend on resuming
-work.](https://www.repostatus.org/badges/latest/suspended.svg)](https://www.repostatus.org/#suspended)
+[![Project Status: WIP – Initial development is in progress, but there
+has not yet been a stable, usable release suitable for the
+public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
 [![R-CMD-check](https://github.com/markean/elgbd/actions/workflows/check-standard.yaml/badge.svg)](https://github.com/markean/elgbd/actions/workflows/check-standard.yaml)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/elgbd)](https://CRAN.R-project.org/package=elgbd)
 <!-- badges: end -->
 
 ## Overview
 
-The R package **elgbd** performs hypothesis testing for general block
-designs with empirical likelihood. The core computational routines are
-implemented with the
-[Eigen](https://eigen.tuxfamily.org/index.php?title=Main_Page) C++
-library and [RcppEigen](https://cran.r-project.org/package=RcppEigen)
-interface, with OpenMP for parallel computation. Details of the testing
-procedures are given in [Kim, MacEachern, and Peruggia
-(2021)](https://arxiv.org/abs/2112.09206).
+elgbd performs hypothesis testing for general block designs with
+empirical likelihood. The core computational routines are implemented
+with the ‘Eigen’ ‘C++’ library and ‘RcppEigen’ interface, with ‘OpenMP’
+for parallel computation. Details of the testing procedures are given in
+[Kim, MacEachern, and Peruggia
+(2023)](https://doi.org/10.1080/10485252.2023.2206919). This work was
+supported by the U.S. National Science Foundation under Grants
+No. [SES-1921523](https://www.nsf.gov/awardsearch/showAward?AWD_ID=1921523)
+and
+[DMS-2015552](https://www.nsf.gov/awardsearch/showAward?AWD_ID=2015552).
 
 ## Installation
 
-You can install the latest development version from
-[Github](https://github.com/markean/elgbd).
+You can install the latest stable release of elgbd from CRAN.
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("markean/elgbd")
+install.packages("elgbd")
+```
+
+### Development version
+
+You can install the development version of elgbd from GitHub.
+
+``` r
+# install.packages("pak")
+pak::pak("markean/elgbd")
 ```
 
 ## Usage
