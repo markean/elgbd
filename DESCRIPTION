@@ -9,11 +9,12 @@ Authors@R: c(
   )
 Description: Performs hypothesis testing for general block designs with
     empirical likelihood. The core computational routines are implemented
-    using the 'Eigen' 'C++' library and 'RcppEigen' interface, with 'OpenMP'
-    for parallel computation. Details of the methods are given in Kim,
-    MacEachern, and Peruggia (2023) <doi:10.1080/10485252.2023.2206919>. This 
-    work was supported by the U.S. National Science Foundation under Grants No. 
-    SES-1921523 and DMS-2015552.
+    using the 'Eigen' 'C++' library and 'RcppEigen' interface, with
+    'OpenMP' for parallel computation. Details of the methods are given in
+    Kim, MacEachern, and Peruggia (2023)
+    <doi:10.1080/10485252.2023.2206919>. This work was supported by the
+    U.S. National Science Foundation under Grants No.  SES-1921523 and
+    DMS-2015552.
 License: GPL (>= 3)
 URL: https://github.com/markean/elgbd
 BugReports: https://github.com/markean/elgbd/issues
@@ -31,7 +32,7 @@ LinkingTo:
     RcppProgress
 Config/testthat/edition: 3
 Encoding: UTF-8
+Language: en-US
 NeedsCompilation: yes
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.1
-Language: en-US
