@@ -100,7 +100,8 @@ el_pairwise <- function(formula, data, control = NULL, k = 1L, alpha = 0.05,
   if (nlevels(mf[[2L]]) >= nlevels(mf[[3L]])) {
     stop("The number of blocks must be larger than the number of treatments.")
   }
-  ## Construct general block design
+
+  # Construct general block design
   # Incidence matrix
   c <- unclass(table(mf[[3L]], mf[[2L]]))
   # Model matrix
@@ -129,7 +130,8 @@ el_pairwise <- function(formula, data, control = NULL, k = 1L, alpha = 0.05,
   } else {
     ctrl <- which(control == gbd$trt)
   }
-  ## Pairwise comparisons
+
+  # Pairwise comparisons
   out <- pairwise(gbd$model_matrix, gbd$incidence_matrix,
     control = ctrl, k, alpha, interval = TRUE,
     method, B, nthreads, threshold = 50, maxit, abstol
@@ -148,41 +150,4 @@ el_pairwise <- function(formula, data, control = NULL, k = 1L, alpha = 0.05,
     }
   }
   out
-}
-
-#' @exportS3Method print pairwise
-print.pairwise <- function(x, ...) {
-  stopifnot(inherits(x, "melt"))
-  cat("\n\tEmpirical Likelihood Multiple Tests\n\n")
-  if (is.null(x$control)) {
-    cat("All pairwise comparisons\n\n")
-    rname <- vector("character", length = 0L)
-    for (i in 1L:(length(x$trt) - 1L)) {
-      for (j in (i + 1L):length(x$trt)) {
-        rname <- c(rname, paste(x$trt[i], "-", x$trt[j]))
-      }
-    }
-  } else {
-    cat("Comparisons with control\n\n")
-    diff <- setdiff(x$trt, x$control)
-    rname <- vector("character", length = length(diff))
-    for (i in seq_along(diff)) {
-      rname[i] <- paste(diff[i], "-", x$control)
-    }
-  }
-  out <- data.frame(
-    row.names = rname, Estimate = x$estimate, Chisq = x$statistic,
-    Lwr.ci = x$lower, Upr.ci = x$upper, p.adj = x$p.adj
-  )
-  printCoefmat(out,
-    digits = min(4L, getOption("digits")),
-    dig.tst = min(3L, getOption("digits")), cs.ind = c(1L, 3L, 4L),
-    tst.ind = 2L, P.values = TRUE, has.Pvalue = TRUE, eps.Pvalue = 1e-03
-  )
-  cat("\n")
-  cat(paste(c("k", "level", "method", "cutoff"),
-    c(x$k, x$level, x$method, round(x$cutoff, 4L)),
-    collapse = ", ", sep = ": "
-  ))
-  cat("\n\n")
 }

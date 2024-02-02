@@ -32,7 +32,7 @@
 #'   \emph{Journal of Nonparametric Statistics}, **35**(4), 709--732.
 #'   \doi{10.1080/10485252.2023.2206919}.
 #' @examples
-#' ## Test for equal means
+#' # Test for equal means
 #' data("clothianidin")
 #' el_test(clo ~ trt | blk, clothianidin,
 #'   lhs = matrix(c(
@@ -44,33 +44,33 @@
 #' @export
 el_test <- function(formula, data, lhs, rhs = NULL, maxit = 1e+04,
                     abstol = 1e-08) {
-  ## check formula
+  # Check formula
   f <- attributes(terms(formula))
   if (any(
-    # response required & no arbitrary manipulation on intercept
+    # Response required & no arbitrary manipulation on intercept
     f$response == 0, f$intercept == 0,
     length(f$variables) != 3L,
-    # no other formula
+    # No other formula
     typeof(f$variables[[3L]]) != "language" ||
       length(f$variables[[3L]]) != 3L,
     # "|" operator needed
     f$variables[[3L]][[1L]] != "|",
-    # no transformation of variables
+    # No transformation of variables
     typeof(f$variables[[3L]][[2L]]) != "symbol" ||
       typeof(f$variables[[3L]][[3L]]) != "symbol",
-    # distinct variables for treatment and block
+    # Distinct variables for treatment and block
     f$variables[[3L]][[2L]] == f$variables[[3L]][[3L]]
   )
   ) {
     stop("invalied model formula. specify formula as 'response ~ treatment | block'")
   }
 
-  ## pseudo formula for model.frame
+  ## Pseudo formula for model frame
   l <- f$variables[[2L]]
   r <- c(f$variables[[3L]][[2L]], f$variables[[3L]][[3L]])
   pf <- formula(paste(l, paste(r, collapse = " + "), sep = " ~ "))
 
-  ## extract model frame
+  ## Extract model frame
   mf <- match.call()
   mf <- mf[c(1L, match(c("formula", "data"), names(mf), 0L))]
   mf$drop.unused.levels <- TRUE
@@ -79,10 +79,10 @@ el_test <- function(formula, data, lhs, rhs = NULL, maxit = 1e+04,
   mf <- eval(mf, parent.frame())
   attributes(mf)$terms <- NULL
 
-  ## type conversion
-  # response
+  # Type conversion
+  # Response
   mf[[1L]] <- as.numeric(mf[[1L]])
-  # treatment
+  # Treatment
   mf[[2L]] <- as.factor(mf[[2L]])
   # block
   mf[[3L]] <- as.factor(mf[[3L]])
@@ -90,10 +90,10 @@ el_test <- function(formula, data, lhs, rhs = NULL, maxit = 1e+04,
     stop("number of blocks should be larger than number of treatments")
   }
 
-  ## construct general block design
-  # incidence matrix
+  # Construct general block design
+  # Incidence matrix
   c <- unclass(table(mf[[3L]], mf[[2L]]))
-  # model matrix
+  # Model matrix
   x <- reshape(mf[order(mf[[2L]]), ],
     idvar = names(mf)[3L],
     timevar = names(mf)[2L],
@@ -101,24 +101,24 @@ el_test <- function(formula, data, lhs, rhs = NULL, maxit = 1e+04,
     direction = "wide"
   )
   x <- x[order(x[[names(mf)[3L]]]), ]
-  # replace NA with 0
+  # Replace NA with 0
   x[is.na(x)] <- 0
-  # remove block variable and convert to matrix
+  # Remove block variable and convert to matrix
   x[names(mf)[3L]] <- NULL
   x <- as.matrix(x)
-  # name rows and columns
+  # Name rows and columns
   dimnames(x) <- list(levels(mf[[3L]]), levels(mf[[2L]]))
-  # general block design
+  # General block design
   gbd <-
     list("model_matrix" = x, "incidence_matrix" = c, "trt" = levels(mf[[2L]]))
   class(gbd) <- c("gbd", "melt")
 
-  ## test for lhs and rhs
+  # Test for lhs and rhs
   if (is.null(rhs)) {
     rhs <- rep(0, nrow(lhs))
   }
 
-  ## test hypothesis
+  # Test hypothesis
   out <- ELtest(gbd$model_matrix, gbd$incidence_matrix, lhs, rhs,
     threshold = nrow(lhs) * 500, maxit, abstol
   )
@@ -130,102 +130,4 @@ el_test <- function(formula, data, lhs, rhs = NULL, maxit = 1e+04,
     warning("convergence failed\n")
   }
   out
-}
-
-#' @export
-confint.el_test <- function(object, parm, level = 0.95, ...) {
-  cf <- coef(object)
-  pnames <- if (is.null(names(cf))) seq(length(cf)) else names(cf)
-  idx <- seq(length(cf))
-  if (!missing(parm)) {
-    if (is.numeric(parm)) {
-      idx <- parm
-      pnames <- pnames[parm]
-    } else if (is.character(parm)) {
-      idx <- match(parm, pnames)
-      pnames <- pnames[idx]
-    } else {
-      stop("invalid 'parm' specified")
-    }
-  }
-  stopifnot(complete.cases(pnames))
-  if (!missing(level) &&
-    (length(level) != 1L || !is.finite(level) ||
-      level < 0 || level > 1)) {
-    stop("'conf.level' must be a single number between 0 and 1")
-  }
-  if (level == 0) {
-    ci <- matrix(rep(cf, 2L), ncol = 2L)
-  } else if (level == 1) {
-    p <- length(pnames)
-    ci <- matrix(c(rep(-Inf, p), rep(Inf, p)), ncol = 2L)
-  } else {
-    cutoff <- qchisq(level, 1L)
-    optcfg <- object$optim$control
-    ci <- EL_confint2(
-      object$data, object$optim$type, cf, cutoff,
-      optcfg$maxit, optcfg$abstol, optcfg$threshold
-    )
-  }
-  a <- (1 - level) / 2
-  a <- c(a, 1 - a)
-  pct <- paste(round(100 * a, 1L), "%")
-  dimnames(ci) <- list(pnames, pct)
-  ci
-}
-
-#' @export
-print.el_test <- function(x, digits = getOption("digits"), ...) {
-  cat("\n")
-  cat("Empirical Likelihood Test:", x$optim$type, "\n")
-  cat("\n")
-  out <- character()
-  if (!is.null(x$statistic)) {
-    out <- c(out, paste(
-      "Chisq", names(x$statistic), "=",
-      format(x$statistic, digits = max(1L, digits - 2L))
-    ))
-  }
-  if (!is.null(x$df)) {
-    out <- c(out, paste("df", "=", x$df))
-  }
-  if (!is.null(x$p.value)) {
-    fp <- format.pval(x$p.value, digits = max(1L, digits - 3L))
-    out <- c(out, paste("p-value", if (startsWith(fp, "<")) {
-      fp
-    } else {
-      paste(
-        "=",
-        fp
-      )
-    }))
-  }
-  cat(strwrap(paste(out, collapse = ", ")), sep = "\n")
-  if (!is.null(x$alternative)) {
-    cat("alternative hypothesis: ")
-    if (!is.null(x$null.value)) {
-      if (length(x$null.value) == 1L) {
-        alt.char <- switch(x$alternative,
-          two.sided = "not equal to",
-          less = "less than",
-          greater = "greater than"
-        )
-        cat("true ", names(x$null.value), " is ", alt.char,
-          " ", x$null.value, "\n",
-          sep = ""
-        )
-      } else {
-        cat(x$alternative, "\nnull values:\n", sep = "")
-        print(x$null.value, digits = digits, ...)
-      }
-    } else {
-      cat(x$alternative, "\n", sep = "")
-    }
-  }
-  if (!is.null(x$coefficients)) {
-    cat("maximum EL estimates:\n")
-    print(x$coefficients, digits = digits, ...)
-  }
-  cat("\n")
-  invisible(x)
 }

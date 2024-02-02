@@ -34,7 +34,7 @@ Tests single hypothesis for general block designs with empirical
 likelihood.
 }
 \examples{
-## Test for equal means
+# Test for equal means
 data("clothianidin")
 el_test(clo ~ trt | blk, clothianidin,
   lhs = matrix(c(

@@ -27,13 +27,13 @@
 #' el_aov(clo ~ trt, clothianidin)
 #' @export
 el_aov <- function(formula, data, maxit = 1e+04, abstol = 1e-08) {
-  ## check formula
+  # Check formula
   f <- attributes(terms(formula))
   if (any(
-    # response required & no arbitrary manipulation on intercept
+    # Response required & no arbitrary manipulation on intercept
     f$response == 0, f$intercept == 0,
     length(f$variables) != 3,
-    # no other formula
+    # No other formula
     typeof(f$variables[[3]]) != "symbol" ||
       length(f$variables[[3]]) != 1
   )
@@ -41,41 +41,41 @@ el_aov <- function(formula, data, maxit = 1e+04, abstol = 1e-08) {
     stop("invalied model formula. specify formula as 'response ~ treatment'")
   }
 
-  ## extract model frame
+  # Extract model frame
   mf <- cl <- match.call()
   mf$drop.unused.levels <- TRUE
   mf[[1L]] <- quote(model.frame)
   mf <- eval(mf, parent.frame())
 
-  ## type conversion
-  # response
+  # Type conversion
+  # Response
   mf[[1L]] <- as.numeric(mf[[1L]])
-  # treatment
+  # Treatment
   mf[[2L]] <- as.factor(mf[[2L]])
 
-  ## extract model terms & levels
-  # model terms
+  # Extract model terms & levels
+  # Model terms
   mt <- attr(mf, "terms")
-  # number of levels
+  # Number of levels
   p <- nlevels(mf[[2L]])
   if (p < 2L) {
     stop("contrasts can be applied only to factors with 2 or more levels")
   }
-  # levels
+  # Levels
   lv <- .getXlevels(mt, mf)
-  # name for coefficients
+  # Name for coefficients
   nm <- paste0(names(lv), lv[[1L]])
 
-  ## construct a general block design
-  # incidence matrix
+  # Construct a general block design
+  # Incidence matrix
   c <- unclass(table(
     factor(row.names(mf), levels = unique(row.names(mf))),
     mf[[2L]]
   ))
-  # model matrix
+  # Model matrix
   x <- mf[[1L]] * c
 
-  ## specify hypothesis
+  # Specify hypothesis
   lhs <- matrix(0, nrow = p - 1, ncol = p)
   if (p == 2L) {
     lhs <- matrix(c(1, -1), nrow = 1L)
@@ -85,7 +85,7 @@ el_aov <- function(formula, data, maxit = 1e+04, abstol = 1e-08) {
   }
   rhs <- rep(0, p - 1)
 
-  ## test hypothesis
+  # Test hypothesis
   out <- ELtest(x, c, lhs, rhs, threshold = 500, maxit, abstol)
   out$coefficients <- setNames(out$coefficients, nm)
   out$xlevels <- lv
