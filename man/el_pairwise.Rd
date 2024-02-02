@@ -18,40 +18,38 @@ el_pairwise(
 )
 }
 \arguments{
-\item{formula}{An object of class \code{\link{formula}} (or one that can be coerced to
-that class) for a symbolic description of the model to be fitted. It must
-specify variables for response, treatment, and block as 'response ~
-treatment | block'. Note that the use of vertical bar (|) separating
-treatment and block.}
+\item{formula}{An object of class \code{\link{formula}} (or one that can be coerced to that class)
+for a symbolic description of the model to be fitted. It must specify the
+variables for response, treatment, and block as \code{response ~ treatment | block}. Note that the use of vertical bar (\code{|}) separating treatment and
+block.}
 
-\item{data}{A data frame, list or environment (or object coercible by
-\code{\link[=as.data.frame]{as.data.frame()}} to a data frame) containing the variables in \code{formula}.}
+\item{data}{A data frame, list or environment (or object coercible by \code{\link[=as.data.frame]{as.data.frame()}}
+to a data frame) containing the variables in \code{formula}.}
 
-\item{control}{An optional single character that specifies the treatment for
-comparisons with control.}
+\item{control}{An optional single character that specifies the treatment for comparisons
+with control.}
 
-\item{k}{A single integer for \eqn{k} in \eqn{k}-FWER. Defaults to 1.}
+\item{k}{A single integer for \eqn{k} in \eqn{k}-FWER. Defaults to \code{1}.}
 
-\item{alpha}{A single numeric for the overall significance level. Defaults to
-\code{0.05}.}
+\item{alpha}{A single numeric for the overall significance level. Defaults to \code{0.05}.}
 
-\item{method}{A single character for the procedure to be used; either \code{AMC}
-or \code{NB} is supported. Defaults to \code{AMC}.}
+\item{method}{A single character for the procedure to be used; either \code{AMC} or \code{NB} is
+supported. Defaults to \code{AMC}.}
 
-\item{B}{A single integer for the number of Monte Carlo samples for the AMC
-(number of bootstrap replicates for the NB).}
+\item{B}{A single integer for the number of Monte Carlo samples for the AMC (number
+of bootstrap replicates for the NB).}
 
-\item{nthreads}{A single integer for the number of threads for parallel
-computation via OpenMP (if available). Defaults to \code{1}.}
+\item{nthreads}{A single integer for the number of threads for parallel computation via
+'OpenMP' (if available). Defaults to \code{1}.}
 
-\item{maxit}{A single integer for the maximum number of iterations for
-constrained minimization of empirical likelihood. Defaults to \code{10000}.}
+\item{maxit}{A single integer for the maximum number of iterations for constrained
+minimization of empirical likelihood. Defaults to \code{10000}.}
 
 \item{abstol}{A single numeric for the the absolute convergence tolerance for
 optimization. Defaults to \code{1e-08}.}
 }
 \value{
-A list with class \code{c("pairwise", "melt")}.
+A list containing the model fit and optimization results.
 }
 \description{
 Tests all pairwise comparisons or comparisons with control for general

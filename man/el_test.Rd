@@ -7,34 +7,41 @@
 el_test(formula, data, lhs, rhs = NULL, maxit = 10000, abstol = 1e-08)
 }
 \arguments{
-\item{formula}{A formula object. It must specify variables for response, treatment, and block as 'response ~ treatment | block'. Note that the use of vertical bar (|) separating treatment and block.}
+\item{formula}{An object of class \code{\link{formula}} (or one that can be coerced to that class)
+for a symbolic description of the model to be fitted. It must specify the
+variables for response, treatment, and block as \code{response ~ treatment | block}. Note that the use of vertical bar (\code{|}) separating treatment and
+block.}
 
-\item{data}{A data frame containing the variables in the formula.}
+\item{data}{A data frame containing the variables in \code{formula}.}
 
-\item{lhs}{Numeric matrix specifying linear hypothesis in terms of parameters.}
+\item{lhs}{A numeric matrix specifying the left-hand side of a hypothesis in terms of
+parameters.}
 
-\item{rhs}{Optional numeric vector for the right hand side of \code{lhs}. If not specified, it is set to 0 vector.}
+\item{rhs}{An optional numeric vector specifying the right-hand side the hypothesis.
+If not specified, it is set to the zero vector. Defaults to \code{NULL}.}
 
-\item{maxit}{Maximum number of iterations for optimization. Defaults to 10000.}
+\item{maxit}{A single integer for the maximum number of iterations for optimization.
+Defaults to \code{10000}.}
 
-\item{abstol}{Absolute convergence tolerance for optimization. Defaults to 1e-08.}
+\item{abstol}{A single numeric for the absolute convergence tolerance for optimization.
+Defaults to \code{1e-08}.}
 }
 \value{
-A list with class \code{c("el_test", "melt")}.
+A list containing the model fit and optimization results.
 }
 \description{
 Tests single hypothesis for general block designs with empirical
 likelihood.
 }
 \examples{
-## test for equal means
+## Test for equal means
 data("clothianidin")
 el_test(clo ~ trt | blk, clothianidin,
   lhs = matrix(c(
     1, -1, 0, 0,
     0, 1, -1, 0,
     0, 0, 1, -1
-  ), byrow = TRUE, nrow = 3)
+  ), byrow = TRUE, nrow = 3L)
 )
 }
 \references{

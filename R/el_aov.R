@@ -4,26 +4,29 @@
 #'   Fits an one-way analysis of variance model with empirical likelihood.
 #'
 #' @param formula
-#'   A formula object. It must specify variables for response and treatment as 'response ~ treatment'.
+#'   An object of class [`formula`] (or one that can be coerced to that class)
+#'   for a symbolic description of the model to be fitted. It must specify
+#'   the variables for response and treatment as `response ~ treatment`.
 #' @param data
-#'   A data frame containing the variables in the formula.
+#'   A data frame containing the variables in `formula`.
 #' @param maxit
-#'   Maximum number of iterations for optimization. Defaults to 10000.
+#'   A single integer for the maximum number of iterations for optimization.
+#'   Defaults to `10000`.
 #' @param abstol
-#'   Absolute convergence tolerance for optimization. Defaults to 1e-08.
+#'   A single numeric for the absolute convergence tolerance for optimization.
+#'   Defaults to `1e-08`.
 #' @return
-#'   A list with class \code{c("el_aov", "melt")}.
+#'   A list containing the model fit and optimization results.
 #' @references
 #'   Owen, A (1991).
 #'   "Empirical Likelihood for Linear Models."
 #'   \emph{The Annals of Statistics}, **19**(4), 1725--1747.
 #'   \doi{10.1214/aos/1176348368}.
-#' @seealso \link{el_test}
 #' @examples
 #' data("clothianidin")
 #' el_aov(clo ~ trt, clothianidin)
 #' @export
-el_aov <- function(formula, data, maxit = 1e04, abstol = 1e-8) {
+el_aov <- function(formula, data, maxit = 1e+04, abstol = 1e-08) {
   ## check formula
   f <- attributes(terms(formula))
   if (any(

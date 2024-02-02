@@ -5,33 +5,41 @@
 #'   likelihood.
 #'
 #' @param formula
-#'   A formula object. It must specify variables for response, treatment, and block as 'response ~ treatment | block'. Note that the use of vertical bar (|) separating treatment and block.
+#'   An object of class [`formula`] (or one that can be coerced to that class)
+#'   for a symbolic description of the model to be fitted. It must specify the
+#'   variables for response, treatment, and block as `response ~ treatment |
+#'   block`. Note that the use of vertical bar (`|`) separating treatment and
+#'   block.
 #' @param data
-#'   A data frame containing the variables in the formula.
+#'   A data frame containing the variables in `formula`.
 #' @param lhs
-#'   Numeric matrix specifying linear hypothesis in terms of parameters.
+#'   A numeric matrix specifying the left-hand side of a hypothesis in terms of
+#'   parameters.
 #' @param rhs
-#'   Optional numeric vector for the right hand side of \code{lhs}. If not specified, it is set to 0 vector.
+#'   An optional numeric vector specifying the right-hand side the hypothesis.
+#'   If not specified, it is set to the zero vector. Defaults to `NULL`.
 #' @param maxit
-#'   Maximum number of iterations for optimization. Defaults to 10000.
+#'   A single integer for the maximum number of iterations for optimization.
+#'   Defaults to `10000`.
 #' @param abstol
-#'   Absolute convergence tolerance for optimization. Defaults to 1e-08.
+#'   A single numeric for the absolute convergence tolerance for optimization.
+#'   Defaults to `1e-08`.
 #' @return
-#'   A list with class \code{c("el_test", "melt")}.
+#'   A list containing the model fit and optimization results.
 #' @references
 #'   Kim E, MacEachern SN, Peruggia M (2023).
 #'   "Empirical likelihood for the analysis of experimental designs."
 #'   \emph{Journal of Nonparametric Statistics}, **35**(4), 709--732.
 #'   \doi{10.1080/10485252.2023.2206919}.
 #' @examples
-#' ## test for equal means
+#' ## Test for equal means
 #' data("clothianidin")
 #' el_test(clo ~ trt | blk, clothianidin,
 #'   lhs = matrix(c(
 #'     1, -1, 0, 0,
 #'     0, 1, -1, 0,
 #'     0, 0, 1, -1
-#'   ), byrow = TRUE, nrow = 3)
+#'   ), byrow = TRUE, nrow = 3L)
 #' )
 #' @export
 el_test <- function(formula, data, lhs, rhs = NULL, maxit = 1e+04,
@@ -220,10 +228,4 @@ print.el_test <- function(x, digits = getOption("digits"), ...) {
   }
   cat("\n")
   invisible(x)
-}
-
-#' @export
-weights.el_test <- function(object, ...) {
-  n <- NROW(object$data)
-  c((n + n * as.matrix(object$data) %*% as.matrix(object$optim$lambda))^-1)
 }

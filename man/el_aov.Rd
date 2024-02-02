@@ -7,16 +7,20 @@
 el_aov(formula, data, maxit = 10000, abstol = 1e-08)
 }
 \arguments{
-\item{formula}{A formula object. It must specify variables for response and treatment as 'response ~ treatment'.}
+\item{formula}{An object of class \code{\link{formula}} (or one that can be coerced to that class)
+for a symbolic description of the model to be fitted. It must specify
+the variables for response and treatment as \code{response ~ treatment}.}
 
-\item{data}{A data frame containing the variables in the formula.}
+\item{data}{A data frame containing the variables in \code{formula}.}
 
-\item{maxit}{Maximum number of iterations for optimization. Defaults to 10000.}
+\item{maxit}{A single integer for the maximum number of iterations for optimization.
+Defaults to \code{10000}.}
 
-\item{abstol}{Absolute convergence tolerance for optimization. Defaults to 1e-08.}
+\item{abstol}{A single numeric for the absolute convergence tolerance for optimization.
+Defaults to \code{1e-08}.}
 }
 \value{
-A list with class \code{c("el_aov", "melt")}.
+A list containing the model fit and optimization results.
 }
 \description{
 Fits an one-way analysis of variance model with empirical likelihood.
@@ -30,7 +34,4 @@ Owen, A (1991).
 "Empirical Likelihood for Linear Models."
 \emph{The Annals of Statistics}, \strong{19}(4), 1725--1747.
 \doi{10.1214/aos/1176348368}.
-}
-\seealso{
-\link{el_test}
 }

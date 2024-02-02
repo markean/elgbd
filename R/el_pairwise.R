@@ -8,39 +8,38 @@
 #'   (NB).
 #'
 #' @param formula
-#'   An object of class [`formula`] (or one that can be coerced to
-#'   that class) for a symbolic description of the model to be fitted. It must
-#'   specify variables for response, treatment, and block as 'response ~
-#'   treatment | block'. Note that the use of vertical bar (|) separating
-#'   treatment and block.
+#'   An object of class [`formula`] (or one that can be coerced to that class)
+#'   for a symbolic description of the model to be fitted. It must specify the
+#'   variables for response, treatment, and block as `response ~ treatment |
+#'   block`. Note that the use of vertical bar (`|`) separating treatment and
+#'   block.
 #' @param data
-#'   A data frame, list or environment (or object coercible by
-#'   [as.data.frame()] to a data frame) containing the variables in `formula`.
+#'   A data frame, list or environment (or object coercible by [as.data.frame()]
+#'   to a data frame) containing the variables in `formula`.
 #' @param control
-#'   An optional single character that specifies the treatment for
-#'   comparisons with control.
+#'   An optional single character that specifies the treatment for comparisons
+#'   with control.
 #' @param k
-#'   A single integer for \eqn{k} in \eqn{k}-FWER. Defaults to 1.
+#'   A single integer for \eqn{k} in \eqn{k}-FWER. Defaults to `1`.
 #' @param alpha
-#'   A single numeric for the overall significance level. Defaults to
-#'   `0.05`.
+#'   A single numeric for the overall significance level. Defaults to `0.05`.
 #' @param method
-#'   A single character for the procedure to be used; either `AMC`
-#'   or `NB` is supported. Defaults to `AMC`.
+#'   A single character for the procedure to be used; either `AMC` or `NB` is
+#'   supported. Defaults to `AMC`.
 #' @param B
-#'   A single integer for the number of Monte Carlo samples for the AMC
-#'   (number of bootstrap replicates for the NB).
+#'   A single integer for the number of Monte Carlo samples for the AMC (number
+#'   of bootstrap replicates for the NB).
 #' @param nthreads
-#'   A single integer for the number of threads for parallel
-#'   computation via OpenMP (if available). Defaults to `1`.
+#'   A single integer for the number of threads for parallel computation via
+#'   'OpenMP' (if available). Defaults to `1`.
 #' @param maxit
-#'   A single integer for the maximum number of iterations for
-#'   constrained minimization of empirical likelihood. Defaults to `10000`.
+#'   A single integer for the maximum number of iterations for constrained
+#'   minimization of empirical likelihood. Defaults to `10000`.
 #' @param abstol
 #'   A single numeric for the the absolute convergence tolerance for
 #'   optimization. Defaults to `1e-08`.
 #' @return
-#'   A list with class \code{c("pairwise", "melt")}.
+#'   A list containing the model fit and optimization results.
 #' @references
 #'   Kim E, MacEachern SN, Peruggia M (2023).
 #'   "Empirical likelihood for the analysis of experimental designs."
