@@ -7,12 +7,15 @@
 #' @param maxit Maximum number of iterations for optimization. Defaults to 10000.
 #' @param abstol Absolute convergence tolerance for optimization. Defaults to 1e-08.
 #' @return A list with class \code{c("el_aov", "melt")}.
-#' @references Owen, Art. 1991. “Empirical Likelihood for Linear Models.” The Annals of Statistics 19 (4). \doi{10.1214/aos/1176348368}.
+#' @references
+#'   Owen, A (1991).
+#'   "Empirical Likelihood for Linear Models."
+#'   \emph{The Annals of Statistics}, **19**(4), 1725--1747.
+#'   \doi{10.1214/aos/1176348368}.
 #' @seealso \link{el_test}
 #' @examples
 #' data("clothianidin")
 #' el_aov(clo ~ trt, clothianidin)
-#' @importFrom stats .getXlevels setNames terms
 #' @export
 el_aov <- function(formula, data, maxit = 1e04, abstol = 1e-8) {
   ## check formula

@@ -26,7 +26,10 @@ data("clothianidin")
 el_aov(clo ~ trt, clothianidin)
 }
 \references{
-Owen, Art. 1991. “Empirical Likelihood for Linear Models.” The Annals of Statistics 19 (4). \doi{10.1214/aos/1176348368}.
+Owen, A (1991).
+"Empirical Likelihood for Linear Models."
+\emph{The Annals of Statistics}, \strong{19}(4), 1725--1747.
+\doi{10.1214/aos/1176348368}.
 }
 \seealso{
 \link{el_test}

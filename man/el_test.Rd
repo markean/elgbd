@@ -32,10 +32,10 @@ el_test(clo ~ trt | blk, clothianidin,
         lhs = matrix(c(1, -1, 0, 0,
                        0, 1, -1, 0,
                        0, 0, 1, -1), byrow = TRUE, nrow = 3))
-
 }
 \references{
-Kim, E., MacEachern, S., and Peruggia, M., (2021),
-"Empirical Likelihood for the Analysis of Experimental Designs,"
-\href{https://arxiv.org/abs/2112.09206}{arxiv:2112.09206}.
+Kim E, MacEachern SN, Peruggia M (2023).
+"Empirical likelihood for the analysis of experimental designs."
+\emph{Journal of Nonparametric Statistics}, \strong{35}(4), 709--732.
+\doi{10.1080/10485252.2023.2206919}.
 }

@@ -58,24 +58,20 @@ Tests all pairwise comparisons or comparisons with control for
 general block designs. Two single step asymptotic \eqn{k}-FWER (generalized
 family-wise error rate) controlling procedures are available: asymptotic
 Monte Carlo (AMC) and nonparametric bootstrap (NB).
-
-\emph{This function is deprecated and will be removed in a future release.}
 }
 \examples{
-\dontrun{
 # All pairwise comparisons
 data("clothianidin")
 el_pairwise(clo ~ trt | blk, data = clothianidin, B = 1000)
 
 # Comparisons with control
 el_pairwise(clo ~ trt | blk,
-  data = clothianidin, control = "Naked",
-  method = "NB", B = 500
+  data = clothianidin, control = "Naked", method = "NB", B = 500
 )
 }
-}
 \references{
-Kim E, MacEachern S, Peruggia M (2021).
-“Empirical Likelihood for the Analysis of Experimental Designs.”
-arxiv:2112.09206. URL \url{https://arxiv.org/abs/2112.09206}.
+Kim E, MacEachern SN, Peruggia M (2023).
+"Empirical likelihood for the analysis of experimental designs."
+\emph{Journal of Nonparametric Statistics}, \strong{35}(4), 709--732.
+\doi{10.1080/10485252.2023.2206919}.
 }

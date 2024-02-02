@@ -5,8 +5,6 @@
 #'  family-wise error rate) controlling procedures are available: asymptotic
 #'  Monte Carlo (AMC) and nonparametric bootstrap (NB).
 #'
-#' \emph{This function is deprecated and will be removed in a future release.}
-#'
 #' @param formula An object of class [`formula`] (or one that can be coerced to
 #'   that class) for a symbolic description of the model to be fitted. It must
 #'   specify variables for response, treatment, and block as 'response ~
@@ -30,33 +28,24 @@
 #' @param abstol A single numeric for the the absolute convergence tolerance for
 #'   optimization. Defaults to `1e-08`.
 #' @return A list with class \code{c("pairwise", "melt")}.
-#' @references Kim E, MacEachern S, Peruggia M (2021).
-#'   “Empirical Likelihood for the Analysis of Experimental Designs.”
-#'   arxiv:2112.09206. URL <https://arxiv.org/abs/2112.09206>.
+#' @references
+#'   Kim E, MacEachern SN, Peruggia M (2023).
+#'   "Empirical likelihood for the analysis of experimental designs."
+#'   \emph{Journal of Nonparametric Statistics}, **35**(4), 709--732.
+#'   \doi{10.1080/10485252.2023.2206919}.
 #' @examples
-#' \dontrun{
 #' # All pairwise comparisons
 #' data("clothianidin")
 #' el_pairwise(clo ~ trt | blk, data = clothianidin, B = 1000)
 #'
 #' # Comparisons with control
 #' el_pairwise(clo ~ trt | blk,
-#'   data = clothianidin, control = "Naked",
-#'   method = "NB", B = 500
+#'   data = clothianidin, control = "Naked", method = "NB", B = 500
 #' )
-#' }
-#' @importFrom stats terms
 #' @export
-el_pairwise <- function(formula,
-                        data,
-                        control = NULL,
-                        k = 1L,
-                        alpha = 0.05,
-                        method = c("AMC", "NB"),
-                        B,
-                        nthreads = 1L,
-                        maxit = 10000L,
-                        abstol = 1e-08) {
+el_pairwise <- function(formula, data, control = NULL, k = 1L, alpha = 0.05,
+                        method = c("AMC", "NB"), B, nthreads = 1L,
+                        maxit = 10000L, abstol = 1e-08) {
   alpha <- validate_alpha(alpha)
   B <- validate_b(B)
   max_threads <- get_max_threads()
