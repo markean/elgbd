@@ -2,7 +2,7 @@
 % Please edit documentation in R/el_pairwise.R
 \name{el_pairwise}
 \alias{el_pairwise}
-\title{Pairwise comparisons for general block designs}
+\title{Pairwise comparisons for general block designs with empirical likelihood}
 \usage{
 el_pairwise(
   formula,
@@ -54,10 +54,11 @@ optimization. Defaults to \code{1e-08}.}
 A list with class \code{c("pairwise", "melt")}.
 }
 \description{
-Tests all pairwise comparisons or comparisons with control for
-general block designs. Two single step asymptotic \eqn{k}-FWER (generalized
-family-wise error rate) controlling procedures are available: asymptotic
-Monte Carlo (AMC) and nonparametric bootstrap (NB).
+Tests all pairwise comparisons or comparisons with control for general
+block designs with empirical likelihood. Two single step asymptotic
+\eqn{k}-FWER (generalized family-wise error rate) controlling procedures
+are available: asymptotic Monte Carlo (AMC) and nonparametric bootstrap
+(NB).
 }
 \examples{
 # All pairwise comparisons

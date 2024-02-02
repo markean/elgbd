@@ -1,6 +1,8 @@
-#' Empirical likelihood hypothesis testing
+#' Hypothesis testing with empirical likelihood
 #'
-#' Tests single hypothesis for general block designs.
+#' @description
+#'   Tests single hypothesis for general block designs with empirical
+#'   likelihood.
 #'
 #' @param formula
 #'   A formula object. It must specify variables for response, treatment, and block as 'response ~ treatment | block'. Note that the use of vertical bar (|) separating treatment and block.

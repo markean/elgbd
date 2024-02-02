@@ -2,7 +2,7 @@
 % Please edit documentation in R/el_test.R
 \name{el_test}
 \alias{el_test}
-\title{Empirical likelihood hypothesis testing}
+\title{Hypothesis testing with empirical likelihood}
 \usage{
 el_test(formula, data, lhs, rhs = NULL, maxit = 10000, abstol = 1e-08)
 }
@@ -23,7 +23,8 @@ el_test(formula, data, lhs, rhs = NULL, maxit = 10000, abstol = 1e-08)
 A list with class \code{c("el_test", "melt")}.
 }
 \description{
-Tests single hypothesis for general block designs.
+Tests single hypothesis for general block designs with empirical
+likelihood.
 }
 \examples{
 ## test for equal means

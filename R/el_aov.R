@@ -1,6 +1,7 @@
-#' Fit an Analysis of Variance Model with Empirical Likelihood
+#' Analysis of variance with empirical likelihood
 #'
-#' Fit an one-way analysis of variance model with empirical likelihood.
+#' @description
+#'   Fits an one-way analysis of variance model with empirical likelihood.
 #'
 #' @param formula A formula object. It must specify variables for response and treatment as 'response ~ treatment'.
 #' @param data A data frame containing the variables in the formula.

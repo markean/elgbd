@@ -1,9 +1,11 @@
-#' Pairwise comparisons for general block designs
+#' Pairwise comparisons for general block designs with empirical likelihood
 #'
-#' @description Tests all pairwise comparisons or comparisons with control for
-#'  general block designs. Two single step asymptotic \eqn{k}-FWER (generalized
-#'  family-wise error rate) controlling procedures are available: asymptotic
-#'  Monte Carlo (AMC) and nonparametric bootstrap (NB).
+#' @description
+#'   Tests all pairwise comparisons or comparisons with control for general
+#'   block designs with empirical likelihood. Two single step asymptotic
+#'   \eqn{k}-FWER (generalized family-wise error rate) controlling procedures
+#'   are available: asymptotic Monte Carlo (AMC) and nonparametric bootstrap
+#'   (NB).
 #'
 #' @param formula An object of class [`formula`] (or one that can be coerced to
 #'   that class) for a symbolic description of the model to be fitted. It must
