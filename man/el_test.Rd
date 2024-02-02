@@ -30,9 +30,12 @@ likelihood.
 ## test for equal means
 data("clothianidin")
 el_test(clo ~ trt | blk, clothianidin,
-        lhs = matrix(c(1, -1, 0, 0,
-                       0, 1, -1, 0,
-                       0, 0, 1, -1), byrow = TRUE, nrow = 3))
+  lhs = matrix(c(
+    1, -1, 0, 0,
+    0, 1, -1, 0,
+    0, 0, 1, -1
+  ), byrow = TRUE, nrow = 3)
+)
 }
 \references{
 Kim E, MacEachern SN, Peruggia M (2023).

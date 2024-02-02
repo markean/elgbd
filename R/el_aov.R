@@ -3,11 +3,16 @@
 #' @description
 #'   Fits an one-way analysis of variance model with empirical likelihood.
 #'
-#' @param formula A formula object. It must specify variables for response and treatment as 'response ~ treatment'.
-#' @param data A data frame containing the variables in the formula.
-#' @param maxit Maximum number of iterations for optimization. Defaults to 10000.
-#' @param abstol Absolute convergence tolerance for optimization. Defaults to 1e-08.
-#' @return A list with class \code{c("el_aov", "melt")}.
+#' @param formula
+#'   A formula object. It must specify variables for response and treatment as 'response ~ treatment'.
+#' @param data
+#'   A data frame containing the variables in the formula.
+#' @param maxit
+#'   Maximum number of iterations for optimization. Defaults to 10000.
+#' @param abstol
+#'   Absolute convergence tolerance for optimization. Defaults to 1e-08.
+#' @return
+#'   A list with class \code{c("el_aov", "melt")}.
 #' @references
 #'   Owen, A (1991).
 #'   "Empirical Likelihood for Linear Models."

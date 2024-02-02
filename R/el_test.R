@@ -27,15 +27,14 @@
 #' ## test for equal means
 #' data("clothianidin")
 #' el_test(clo ~ trt | blk, clothianidin,
-#'         lhs = matrix(c(1, -1, 0, 0,
-#'                        0, 1, -1, 0,
-#'                        0, 0, 1, -1), byrow = TRUE, nrow = 3))
+#'   lhs = matrix(c(
+#'     1, -1, 0, 0,
+#'     0, 1, -1, 0,
+#'     0, 0, 1, -1
+#'   ), byrow = TRUE, nrow = 3)
+#' )
 #' @export
-el_test <- function(formula,
-                    data,
-                    lhs,
-                    rhs = NULL,
-                    maxit = 1e+04,
+el_test <- function(formula, data, lhs, rhs = NULL, maxit = 1e+04,
                     abstol = 1e-08) {
   ## check formula
   f <- attributes(terms(formula))
@@ -45,14 +44,15 @@ el_test <- function(formula,
     length(f$variables) != 3L,
     # no other formula
     typeof(f$variables[[3L]]) != "language" ||
-    length(f$variables[[3L]]) != 3L,
+      length(f$variables[[3L]]) != 3L,
     # "|" operator needed
     f$variables[[3L]][[1L]] != "|",
     # no transformation of variables
     typeof(f$variables[[3L]][[2L]]) != "symbol" ||
-    typeof(f$variables[[3L]][[3L]]) != "symbol",
+      typeof(f$variables[[3L]][[3L]]) != "symbol",
     # distinct variables for treatment and block
-    f$variables[[3L]][[2L]] == f$variables[[3L]][[3L]])
+    f$variables[[3L]][[2L]] == f$variables[[3L]][[3L]]
+  )
   ) {
     stop("invalied model formula. specify formula as 'response ~ treatment | block'")
   }
@@ -87,10 +87,11 @@ el_test <- function(formula,
   c <- unclass(table(mf[[3L]], mf[[2L]]))
   # model matrix
   x <- reshape(mf[order(mf[[2L]]), ],
-               idvar = names(mf)[3L],
-               timevar = names(mf)[2L],
-               v.names = names(mf)[1L],
-               direction = "wide")
+    idvar = names(mf)[3L],
+    timevar = names(mf)[2L],
+    v.names = names(mf)[1L],
+    direction = "wide"
+  )
   x <- x[order(x[[names(mf)[3L]]]), ]
   # replace NA with 0
   x[is.na(x)] <- 0
@@ -111,7 +112,8 @@ el_test <- function(formula,
 
   ## test hypothesis
   out <- ELtest(gbd$model_matrix, gbd$incidence_matrix, lhs, rhs,
-                threshold = nrow(lhs) * 500, maxit, abstol)
+    threshold = nrow(lhs) * 500, maxit, abstol
+  )
   out$trt <- gbd$trt
   out$model.matrix <- gbd$model_matrix
   out$incidence.matrix <- gbd$incidence_matrix
@@ -140,9 +142,10 @@ confint.el_test <- function(object, parm, level = 0.95, ...) {
   }
   stopifnot(complete.cases(pnames))
   if (!missing(level) &&
-      (length(level) != 1L || !is.finite(level) ||
-       level < 0 || level > 1))
+    (length(level) != 1L || !is.finite(level) ||
+      level < 0 || level > 1)) {
     stop("'conf.level' must be a single number between 0 and 1")
+  }
   if (level == 0) {
     ci <- matrix(rep(cf, 2L), ncol = 2L)
   } else if (level == 1) {
@@ -151,10 +154,12 @@ confint.el_test <- function(object, parm, level = 0.95, ...) {
   } else {
     cutoff <- qchisq(level, 1L)
     optcfg <- object$optim$control
-    ci <- EL_confint2(object$data, object$optim$type, cf, cutoff,
-                     optcfg$maxit, optcfg$abstol, optcfg$threshold)
+    ci <- EL_confint2(
+      object$data, object$optim$type, cf, cutoff,
+      optcfg$maxit, optcfg$abstol, optcfg$threshold
+    )
   }
-  a <- (1 - level)/2
+  a <- (1 - level) / 2
   a <- c(a, 1 - a)
   pct <- paste(round(100 * a, 1L), "%")
   dimnames(ci) <- list(pnames, pct)
@@ -167,32 +172,47 @@ print.el_test <- function(x, digits = getOption("digits"), ...) {
   cat("Empirical Likelihood Test:", x$optim$type, "\n")
   cat("\n")
   out <- character()
-  if (!is.null(x$statistic))
-    out <- c(out, paste("Chisq", names(x$statistic), "=",
-                        format(x$statistic, digits = max(1L, digits - 2L))))
-  if (!is.null(x$df))
+  if (!is.null(x$statistic)) {
+    out <- c(out, paste(
+      "Chisq", names(x$statistic), "=",
+      format(x$statistic, digits = max(1L, digits - 2L))
+    ))
+  }
+  if (!is.null(x$df)) {
     out <- c(out, paste("df", "=", x$df))
+  }
   if (!is.null(x$p.value)) {
     fp <- format.pval(x$p.value, digits = max(1L, digits - 3L))
-    out <- c(out, paste("p-value", if (startsWith(fp, "<")) fp else paste("=",
-                                                                          fp)))
+    out <- c(out, paste("p-value", if (startsWith(fp, "<")) {
+      fp
+    } else {
+      paste(
+        "=",
+        fp
+      )
+    }))
   }
   cat(strwrap(paste(out, collapse = ", ")), sep = "\n")
   if (!is.null(x$alternative)) {
     cat("alternative hypothesis: ")
     if (!is.null(x$null.value)) {
       if (length(x$null.value) == 1L) {
-        alt.char <- switch(x$alternative, two.sided = "not equal to",
-                           less = "less than", greater = "greater than")
+        alt.char <- switch(x$alternative,
+          two.sided = "not equal to",
+          less = "less than",
+          greater = "greater than"
+        )
         cat("true ", names(x$null.value), " is ", alt.char,
-            " ", x$null.value, "\n", sep = "")
-      }
-      else {
+          " ", x$null.value, "\n",
+          sep = ""
+        )
+      } else {
         cat(x$alternative, "\nnull values:\n", sep = "")
         print(x$null.value, digits = digits, ...)
       }
+    } else {
+      cat(x$alternative, "\n", sep = "")
     }
-    else cat(x$alternative, "\n", sep = "")
   }
   if (!is.null(x$coefficients)) {
     cat("maximum EL estimates:\n")
