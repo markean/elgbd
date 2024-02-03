@@ -1,7 +1,7 @@
 Type: Package
 Package: elgbd
 Title: Empirical Likelihood for General Block Designs
-Version: 0.9.0.9000
+Version: 0.9.0
 Authors@R: c(
     person("Eunseop", "Kim", , "markean@pm.me", role = c("aut", "cph", "cre")),
     person("Steven", "MacEachern", role = c("ctb", "ths")),

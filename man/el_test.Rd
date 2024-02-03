@@ -4,7 +4,15 @@
 \alias{el_test}
 \title{Hypothesis testing with empirical likelihood}
 \usage{
-el_test(formula, data, lhs, rhs = NULL, maxit = 10000, abstol = 1e-08)
+el_test(
+  formula,
+  data,
+  lhs,
+  rhs = NULL,
+  maxit = 10000,
+  abstol = 1e-08,
+  verbose = FALSE
+)
 }
 \arguments{
 \item{formula}{An object of class \code{\link{formula}} (or one that can be coerced to that class)
@@ -25,6 +33,9 @@ Defaults to \code{10000}.}
 
 \item{abstol}{A single numeric for the absolute convergence tolerance for optimization.
 Defaults to \code{1e-08}.}
+
+\item{verbose}{A single logical. If \code{TRUE}, a message on the convergence status is
+printed. Defaults to \code{FALSE}.}
 }
 \value{
 A list containing the model fit and optimization results.

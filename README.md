@@ -47,56 +47,55 @@ pak::pak("markean/elgbd")
 
 ``` r
 library(elgbd)
+set.seed(58234)
 # Analysis of variance
 el_aov(formula = Sepal.Length ~ Species, data = iris)
 #> Call:
 #> el_aov(formula = Sepal.Length ~ Species, data = iris)
 #> 
-#> minimizer:
+#> Minimizer:
 #> 5.9595 5.9595 5.9595
 #> 
-#> statistic:
+#> Statistic:
 #> 94.9054
 
 # All pairwise comparisons
 data("clothianidin")
 el_pairwise(clo ~ trt | blk, data = clothianidin, B = 1000)
-#> Warning in el_pairwise(clo ~ trt | blk, data = clothianidin, B = 1000): Convergence failed.
 #> 
 #>  Empirical Likelihood Multiple Tests
 #> 
 #> All pairwise comparisons
 #> 
 #>                   Estimate  Chisq  Lwr.ci  Upr.ci  p.adj    
-#> Naked - Fungicide  -1.0525 14.098 -2.0845 -0.2965 <0.001 ***
-#> Naked - Low        -1.6794 15.935 -2.6447 -0.6716 <0.001 ***
-#> Naked - High       -3.1726 42.803 -4.5380 -1.7315 <0.001 ***
-#> Fungicide - Low    -0.6269  1.834 -1.6070  0.6096  0.493    
-#> Fungicide - High   -2.1201 14.085 -3.2064 -0.7636 <0.001 ***
-#> Low - High         -1.4932 11.715 -2.6866 -0.4256 <0.001 ***
+#> Naked - Fungicide  -1.0525 14.098 -2.1150 -0.2794  0.002 ** 
+#> Naked - Low        -1.6794 15.935 -2.6705 -0.6435  0.001 ***
+#> Naked - High       -3.1726 42.803 -4.5731 -1.6940 <0.001 ***
+#> Fungicide - Low    -0.6269  1.834 -1.6303  0.6448  0.523    
+#> Fungicide - High   -2.1201 14.085 -3.2313 -0.7247  0.002 ** 
+#> Low - High         -1.4932 11.715 -2.7228 -0.3954  0.003 ** 
 #> ---
 #> Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 #> 
-#> k: 1, level: 0.05, method: AMC, cutoff: 6.3452
+#> k: 1, level: 0.05, method: AMC, cutoff: 6.6737
 
 # Comparisons with control
 el_pairwise(clo ~ trt | blk,
   data = clothianidin, control = "Naked", method = "NB", B = 500
 )
-#> Warning in el_pairwise(clo ~ trt | blk, data = clothianidin, control = "Naked", : Convergence failed and switched to AMC for confidence intervals.
 #> 
 #>  Empirical Likelihood Multiple Tests
 #> 
 #> Comparisons with control
 #> 
 #>                   Estimate Chisq Lwr.ci Upr.ci  p.adj    
-#> Fungicide - Naked   1.0525 14.10 0.3559 1.9809  0.008 ** 
-#> Low - Naked         1.6794 15.94 0.7670 2.5569  0.006 ** 
-#> High - Naked        3.1726 42.80 1.8603 4.4176 <0.001 ***
+#> Fungicide - Naked   1.0525 14.10 0.3443 2.0008  0.002 ** 
+#> Low - Naked         1.6794 15.94 0.7486 2.5739 <0.001 ***
+#> High - Naked        3.1726 42.80 1.8353 4.4409 <0.001 ***
 #> ---
 #> Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 #> 
-#> k: 1, level: 0.05, method: NB, cutoff: 6.1261
+#> k: 1, level: 0.05, method: NB, cutoff: 5.7301
 
 # Test for equal means
 el_test(clo ~ trt | blk, clothianidin,
@@ -107,9 +106,12 @@ el_test(clo ~ trt | blk, clothianidin,
   ), byrow = TRUE, nrow = 3L)
 )
 #> 
-#> Empirical Likelihood Test: 
+#>  Empirical Likelihood Test
 #> 
+#> General block designs
 #> 
-#> maximum EL estimates:
+#> Maximum EL estimates:
 #> [1] -4.479086 -3.426618 -2.799700 -1.306530
+#> 
+#> Statistic: 28.055
 ```

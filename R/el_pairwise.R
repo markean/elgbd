@@ -38,6 +38,9 @@
 #' @param abstol
 #'   A single numeric for the the absolute convergence tolerance for
 #'   optimization. Defaults to `1e-08`.
+#' @param verbose
+#'   A single logical. If `TRUE`, a message on the convergence status is
+#'   printed. Defaults to `FALSE`.
 #' @return
 #'   A list containing the model fit and optimization results.
 #' @references
@@ -57,7 +60,7 @@
 #' @export
 el_pairwise <- function(formula, data, control = NULL, k = 1L, alpha = 0.05,
                         method = c("AMC", "NB"), B, nthreads = 1L,
-                        maxit = 10000L, abstol = 1e-08) {
+                        maxit = 10000L, abstol = 1e-08, verbose = FALSE) {
   alpha <- validate_alpha(alpha)
   B <- validate_b(B)
   max_threads <- get_max_threads()
@@ -140,13 +143,15 @@ el_pairwise <- function(formula, data, control = NULL, k = 1L, alpha = 0.05,
   out$control <- control
   out$model.matrix <- gbd$model_matrix
   out$incidence.matrix <- gbd$incidence_matrix
-  if (!all(out$convergence)) {
-    if (method == "NB") {
-      warning(
-        "Convergence failed and switched to AMC for confidence intervals.\n"
-      )
-    } else {
-      warning("Convergence failed.\n")
+  if (isTRUE(verbose)) {
+    if (!all(out$convergence)) {
+      if (method == "NB") {
+        message(
+          "Convergence failed and switched to AMC for confidence intervals.\n"
+        )
+      } else {
+        message("Convergence failed.\n")
+      }
     }
   }
   out

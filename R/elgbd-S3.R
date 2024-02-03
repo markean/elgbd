@@ -7,7 +7,7 @@ print.el_aov <- function(x, ...) {
   cat(format(round(x$optim$par, 4L), scientific = FALSE))
   cat("\n\n")
   cat("Statistic:\n")
-  cat(format(round(x$optim$n2logLR, 4L), scientific = FALSE))
+  cat(format(round(x$statistic, 4L), scientific = FALSE))
   cat("\n\n")
 }
 
@@ -50,56 +50,22 @@ print.pairwise <- function(x, ...) {
 
 #' @export
 print.el_test <- function(x, digits = getOption("digits"), ...) {
-  cat("\n")
-  cat("Empirical Likelihood Test:", x$optim$type, "\n")
-  cat("\n")
+  stopifnot(inherits(x, "elgbd"))
+  cat("\n\tEmpirical Likelihood Test\n\n")
+  cat("General block designs\n")
+  if (!is.null(x$coefficients)) {
+    cat("\nMaximum EL estimates:\n")
+    print(x$coefficients, digits = digits, ...)
+  }
   out <- character()
   if (!is.null(x$statistic)) {
+    cat("\n")
     out <- c(out, paste(
-      "Chisq", names(x$statistic), "=",
+      "Statistic: ", names(x$statistic),
       format(x$statistic, digits = max(1L, digits - 2L))
     ))
   }
-  if (!is.null(x$df)) {
-    out <- c(out, paste("df", "=", x$df))
-  }
-  if (!is.null(x$p.value)) {
-    fp <- format.pval(x$p.value, digits = max(1L, digits - 3L))
-    out <- c(out, paste("p-value", if (startsWith(fp, "<")) {
-      fp
-    } else {
-      paste(
-        "=",
-        fp
-      )
-    }))
-  }
   cat(strwrap(paste(out, collapse = ", ")), sep = "\n")
-  if (!is.null(x$alternative)) {
-    cat("alternative hypothesis: ")
-    if (!is.null(x$null.value)) {
-      if (length(x$null.value) == 1L) {
-        alt.char <- switch(x$alternative,
-          two.sided = "not equal to",
-          less = "less than",
-          greater = "greater than"
-        )
-        cat("true ", names(x$null.value), " is ", alt.char,
-          " ", x$null.value, "\n",
-          sep = ""
-        )
-      } else {
-        cat(x$alternative, "\nnull values:\n", sep = "")
-        print(x$null.value, digits = digits, ...)
-      }
-    } else {
-      cat(x$alternative, "\n", sep = "")
-    }
-  }
-  if (!is.null(x$coefficients)) {
-    cat("maximum EL estimates:\n")
-    print(x$coefficients, digits = digits, ...)
-  }
   cat("\n")
   invisible(x)
 }

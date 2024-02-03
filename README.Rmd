@@ -50,6 +50,7 @@ pak::pak("markean/elgbd")
 ## Usage
 ```{r eval = TRUE}
 library(elgbd)
+set.seed(58234)
 # Analysis of variance
 el_aov(formula = Sepal.Length ~ Species, data = iris)
 

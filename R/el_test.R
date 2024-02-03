@@ -24,6 +24,9 @@
 #' @param abstol
 #'   A single numeric for the absolute convergence tolerance for optimization.
 #'   Defaults to `1e-08`.
+#' @param verbose
+#'   A single logical. If `TRUE`, a message on the convergence status is
+#'   printed. Defaults to `FALSE`.
 #' @return
 #'   A list containing the model fit and optimization results.
 #' @references
@@ -43,7 +46,7 @@
 #' )
 #' @export
 el_test <- function(formula, data, lhs, rhs = NULL, maxit = 1e+04,
-                    abstol = 1e-08) {
+                    abstol = 1e-08, verbose = FALSE) {
   # Check formula
   f <- attributes(terms(formula))
   if (any(
@@ -62,7 +65,7 @@ el_test <- function(formula, data, lhs, rhs = NULL, maxit = 1e+04,
     f$variables[[3L]][[2L]] == f$variables[[3L]][[3L]]
   )
   ) {
-    stop("invalied model formula. specify formula as 'response ~ treatment | block'")
+    stop("Invalied model formula. specify formula as `response ~ treatment | block`")
   }
 
   ## Pseudo formula for model frame
@@ -126,8 +129,10 @@ el_test <- function(formula, data, lhs, rhs = NULL, maxit = 1e+04,
   out$model.matrix <- gbd$model_matrix
   out$incidence.matrix <- gbd$incidence_matrix
   class(out) <- c("el_test", oldClass(out))
-  if (!out$optim$convergence) {
-    warning("convergence failed\n")
+  if (isTRUE(verbose)) {
+    if (!out$optim$convergence) {
+      message("Convergence failed.\n")
+    }
   }
   out
 }

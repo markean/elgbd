@@ -14,7 +14,8 @@ el_pairwise(
   B,
   nthreads = 1L,
   maxit = 10000L,
-  abstol = 1e-08
+  abstol = 1e-08,
+  verbose = FALSE
 )
 }
 \arguments{
@@ -47,6 +48,9 @@ minimization of empirical likelihood. Defaults to \code{10000}.}
 
 \item{abstol}{A single numeric for the the absolute convergence tolerance for
 optimization. Defaults to \code{1e-08}.}
+
+\item{verbose}{A single logical. If \code{TRUE}, a message on the convergence status is
+printed. Defaults to \code{FALSE}.}
 }
 \value{
 A list containing the model fit and optimization results.

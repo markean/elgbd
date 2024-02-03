@@ -15,7 +15,7 @@ Rcpp::List pairwise(const Eigen::MatrixXd& x,
                     const int maxit = 1e4,
                     const double abstol = 1e-8) {
   if (level <= 0 || level >= 1) {
-    Rcpp::stop("level must be between 0 and 1.");
+    Rcpp::stop("`level` must be between 0 and 1.");
   }
   // Pairs
   std::vector<std::array<int, 2>> pairs = comparison_pairs(x.cols(), control);
@@ -32,7 +32,7 @@ Rcpp::List pairwise(const Eigen::MatrixXd& x,
   const Eigen::VectorXd theta_hat =
     x.array().colwise().sum() / c.array().colwise().sum();
   if (progress) {
-    REprintf("computing statistics...");
+    REprintf("Computing statistics...");
   }
   // 1. statistics
   for (int i = 0; i < m; ++i) {
@@ -52,7 +52,7 @@ Rcpp::List pairwise(const Eigen::MatrixXd& x,
                              [](bool v) {return !v;});
   // Bootstrap statistics
   if (progress) {
-    REprintf("\ncomputing cutoff...");
+    REprintf("\nComputing cutoff...");
   }
   Eigen::ArrayXd bootstrap_statistics_pairwise(B);
   if (method == "AMC") {
@@ -91,7 +91,7 @@ Rcpp::List pairwise(const Eigen::MatrixXd& x,
                                 Rcpp::Named("probs") = 1 - level));
   }
   if (progress) {
-    REprintf("\ncomputing confidence intervals...\n");
+    REprintf("\nComputing confidence intervals...\n");
   }
   if (interval) {
     std::vector<double> lower(m);
