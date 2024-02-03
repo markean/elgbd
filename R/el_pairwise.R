@@ -55,7 +55,7 @@
 #'
 #' # Comparisons with control
 #' el_pairwise(clo ~ trt | blk,
-#'   data = clothianidin, control = "Naked", method = "NB", B = 500
+#'   data = clothianidin, control = "Naked", method = "NB", B = 50
 #' )
 #' @export
 el_pairwise <- function(formula, data, control = NULL, k = 1L, alpha = 0.05,
