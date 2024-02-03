@@ -8,7 +8,7 @@ Rcpp::List ELtest(const Eigen::MatrixXd& x,
                   const double threshold,
                   const int maxit = 1e4,
                   const double abstol = 1e-8) {
-  // check lhs & rhs
+  // Check lhs & rhs
   if (lhs.rows() > lhs.cols()) {
     Rcpp::stop("nrow(lhs) must not exceed ncol(lhs)");
   }
@@ -20,7 +20,7 @@ Rcpp::List ELtest(const Eigen::MatrixXd& x,
     Rcpp::stop("dimensions of lhs and rhs do not match");
   }
 
-  // global minimizer
+  // Global minimizer
   const Eigen::VectorXd theta_hat =
     x.array().colwise().sum() / c.array().colwise().sum();
 

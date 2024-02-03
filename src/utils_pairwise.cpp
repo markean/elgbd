@@ -2,12 +2,12 @@
 
 std::vector<std::array<int, 2>> comparison_pairs(
     const int p, const int control) {
-  // initialize a vector of vectors
+  // Initialize a vector of vectors
   std::vector<std::array<int, 2>> pairs;
   if (control == 0){
-    // the size of vector is p choose 2
+    // Size of vector is p choose 2
     pairs.reserve(p * (p - 1) / 2);
-    // fill in each elements(pairs)
+    // Fill in each elements(pairs)
     for (int i = 0; i < p - 1; ++i) {
       for (int j = i + 1; j < p; ++j) {
         pairs.emplace_back(std::array<int, 2>{i, j});
@@ -15,9 +15,9 @@ std::vector<std::array<int, 2>> comparison_pairs(
       }
     }
   } else {
-    // the size of vector is p - 1
+    // Size of vector is p - 1
     pairs.reserve(p - 1);
-    // fill in each elements(pairs)
+    // Fill in each elements(pairs)
     for (int i = 0; i < p; ++i) {
       if (i == control - 1) {
         continue;
@@ -36,18 +36,18 @@ std::array<double, 2> pair_confidence_interval_gbd(
     const double threshold,
     const double init,
     const double cutoff) {
-  // upper endpoint
+  // Upper endpoint
   double upper_lb = init;
   double upper_size = 1;
   double upper_ub = init + upper_size;
-  // upper bound for upper endpoint
+  // Upper bound for upper endpoint
   while (2 * test_nlogLR(
       theta0, x, c, lhs,
       Eigen::Matrix<double, 1, 1>(upper_ub), 1000, 1e-04, threshold) <= cutoff) {
     upper_lb = upper_ub;
     upper_ub += upper_size;
   }
-  // approximate upper bound by numerical search
+  // Approximate upper bound by numerical search
   while (upper_ub - upper_lb > 1e-04) {
     if (2 * test_nlogLR(
         theta0, x, c, lhs,
@@ -59,25 +59,20 @@ std::array<double, 2> pair_confidence_interval_gbd(
     }
   }
 
-  // // lower endpoint
-  // double lower_ub;
-  // double lower_size = upper_ub - init;
-  // double lower_lb = init - lower_size;
-
-  // lower endpoint
+  // Lower endpoint
   double lower_ub = init;
   double lower_size = 1;
   double lower_lb = init - lower_size;
 
 
-  // lower bound for lower endpoint
+  // Lower bound for lower endpoint
   while (2 * test_nlogLR(
       theta0, x, c, lhs,
       Eigen::Matrix<double, 1, 1>(lower_lb), 1000, 1e-04, threshold) <= cutoff) {
     lower_ub = lower_lb;
     lower_lb -= lower_size;
   }
-  // approximate lower bound by numerical search
+  // Approximate lower bound by numerical search
   while (lower_ub - lower_lb > 1e-04) {
     if (2 * test_nlogLR(
         theta0, x, c, lhs,
@@ -98,11 +93,11 @@ Eigen::ArrayXd bootstrap_statistics_pairwise_AMC(
     const std::vector<std::array<int, 2>>& pairs,
     const int B,
     const double level) {
-  // covariance estimate
+  // Covariance estimate
   const Eigen::MatrixXd V_hat = cov_gbd(x, c);
   // U hat matrices
   const Eigen::MatrixXd U_hat = rmvn(V_hat, B);
-  // number of hypotheses
+  // Number of hypotheses
   const int m = pairs.size();
 
   // B bootstrap statistics(B x m matrix)
@@ -116,7 +111,7 @@ Eigen::ArrayXd bootstrap_statistics_pairwise_AMC(
     bootstrap_statistics.col(j) =
       (U_hat * A_hat * U_hat.transpose()).diagonal();
   }
-  // rowwise sort
+  // Rowwise sort
   for (int b = 0; b < B; ++b) {
     std::sort(bootstrap_statistics.row(b).data(),
               bootstrap_statistics.row(b).data() + m);
@@ -140,15 +135,14 @@ Eigen::ArrayXd bootstrap_statistics_pairwise_NB(
   const int p = x.cols();
   const int m = pairs.size();   // number of hypotheses
 
-  // centered matrix
-  // Eigen::MatrixXd&& x_centered = centering_gbd(x, c);
+  // Centered matrix
   const Eigen::MatrixXd x_centered =
     x - (c.array().rowwise() *
     (x.array().colwise().sum() / c.array().colwise().sum())).matrix();
 
-  // index vector for boostrap(length n * B)
-  // generate index to sample(Rcpp) -> transform to std::vector ->
-  // reshape to ArrayXXi(Eigen)
+  // Index vector for boostrap(length n * B)
+  // Generate index to sample(Rcpp) -> transform to std::vector ->
+  // Reshape to ArrayXXi(Eigen)
   const Eigen::ArrayXXi bootstrap_index =
     Eigen::Map<Eigen::ArrayXXi, Eigen::Unaligned>(
         (Rcpp::as<std::vector<int>>(
@@ -162,13 +156,10 @@ Eigen::ArrayXd bootstrap_statistics_pairwise_NB(
   bool stop = false;
   #pragma omp parallel for num_threads(nthread) schedule(dynamic)
   for (int b = 0; b < B; ++b) {
-    if (!pg.is_aborted()) { // the only way to exit an OpenMP loop
-      // check for user abort for every 250 iterations
-      // if ((b + 1) % 250 == 0){
+    if (!pg.is_aborted()) {
       if (Progress::check_abort()) {
           stop = true;
       }
-      // }
 
       std::vector<double> bootstrap_statistics(m);
       for (int j = 0; j < m; ++j) {
@@ -181,10 +172,10 @@ Eigen::ArrayXd bootstrap_statistics_pairwise_NB(
                         lhs, Eigen::Matrix<double, 1, 1>(0),
                         threshold, maxit, abstol);
         }
-    // kth largest element
+    // k-th largest element
     std::sort(bootstrap_statistics.begin(), bootstrap_statistics.end());
     k_bootstrap_statistics[b] = bootstrap_statistics[m - k];
-    // update the progress
+    // Update the progress
     pg.increment();
     }
   }

@@ -50,6 +50,24 @@ pak::pak("markean/elgbd")
 ## Usage
 ```{r eval = TRUE}
 library(elgbd)
-# analysis of variance
+# Analysis of variance
 el_aov(formula = Sepal.Length ~ Species, data = iris)
+
+# All pairwise comparisons
+data("clothianidin")
+el_pairwise(clo ~ trt | blk, data = clothianidin, B = 1000)
+
+# Comparisons with control
+el_pairwise(clo ~ trt | blk,
+  data = clothianidin, control = "Naked", method = "NB", B = 500
+)
+
+# Test for equal means
+el_test(clo ~ trt | blk, clothianidin,
+  lhs = matrix(c(
+    1, -1, 0, 0,
+    0, 1, -1, 0,
+    0, 0, 1, -1
+  ), byrow = TRUE, nrow = 3L)
+)
 ```

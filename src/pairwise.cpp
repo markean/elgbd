@@ -17,18 +17,18 @@ Rcpp::List pairwise(const Eigen::MatrixXd& x,
   if (level <= 0 || level >= 1) {
     Rcpp::stop("level must be between 0 and 1.");
   }
-  // pairs
+  // Pairs
   std::vector<std::array<int, 2>> pairs = comparison_pairs(x.cols(), control);
-  // number of hypotheses
+  // Number of hypotheses
   const int m = pairs.size();
-  // estimates
+  // Estimates
   std::vector<double> estimate(m);
-  // statistics
+  // Statistics
   std::vector<double> statistic(m);
-  // convergences
+  // Convergences
   std::vector<bool> convergence(m);
 
-  // global minimizer
+  // Global minimizer
   const Eigen::VectorXd theta_hat =
     x.array().colwise().sum() / c.array().colwise().sum();
   if (progress) {
@@ -47,10 +47,10 @@ Rcpp::List pairwise(const Eigen::MatrixXd& x,
     statistic[i] = 2 * pairwise_result.nlogLR;
     convergence[i] = pairwise_result.convergence;
   }
-  // if any of the statistics is not converged, switch...
+  // If any of the statistics is not converged, switch
   bool anyfail = std::any_of(convergence.begin(), convergence.end(),
                              [](bool v) {return !v;});
-  // bootstrap statistics
+  // Bootstrap statistics
   if (progress) {
     REprintf("\ncomputing cutoff...");
   }
@@ -64,20 +64,20 @@ Rcpp::List pairwise(const Eigen::MatrixXd& x,
                                        level, nthread, progress,
                                        threshold, maxit, abstol);
   }
-  // 2. adjusted p-values
+  // 2. Adjusted p-values
   std::vector<double> adj_pvalues(m);
   for (int i = 0; i < m; ++i) {
     adj_pvalues[i] =
       static_cast<double>(
         (bootstrap_statistics_pairwise >= statistic[i]).count()) / B;
   }
-  // 3. cutoff
+  // 3. Cutoff
   Rcpp::Function quantile("quantile");
   double cutoff =
     Rcpp::as<double>(quantile(bootstrap_statistics_pairwise,
                               Rcpp::Named("probs") = 1 - level));
 
-  // result
+  // Result
   Rcpp::List result;
   result["estimate"] = estimate;
   result["statistic"] = statistic;

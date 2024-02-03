@@ -14,7 +14,7 @@
 
 #include "progress_bar.hpp"
 
-// for unices only
+// For unices only
 #if !defined(WIN32) && !defined(__WIN32) && !defined(__WIN32__)
 #include <Rinterface.h>
 #endif
@@ -36,32 +36,32 @@ class NB_ProgressBar: public ProgressBar{
         REprintf("\n");
         flush_console();
       }
-      // update display
+      // Update display
       void update(float progress) {
-        // stop if already finalized
+        // Stop if already finalized
         if (_finalized) return;
-        // start time measurement when update() is called the first time
+        // Start time measurement when update() is called the first time
         if (_timer_flag) {
           _timer_flag = false;
-          // measure start time
+          // Measure start time
           time(&start);
         } else {
-          // measure current time
+          // Measure current time
           time(&end);
-          // calculate passed time and remaining time (in seconds)
+          // Calculate passed time and remaining time (in seconds)
           double pas_time = std::difftime(end, start);
           double rem_time = (pas_time / progress) * (1 - progress);
-          // convert seconds to time string
+          // Convert seconds to time string
           std::string rem_time_string = _time_to_string(rem_time);
           std::string pas_time_string = _time_to_string(pas_time);
-          // create progress bar string
+          // Create progress bar string
           std::string progress_bar_string = _current_ticks_display(progress);
-          // ensure overwriting of old time info
+          // Ensure overwriting of old time info
           int rem_empty_length = rem_time_string.length();
           int pas_empty_length = pas_time_string.length();
           std::string rem_empty_space = std::string(rem_empty_length, ' ');
           std::string pas_empty_space = std::string(pas_empty_length, ' ');
-          // merge progress bar and time string
+          // Merge progress bar and time string
           std::stringstream strs;
           strs << "[" << progress_bar_string << "] " <<
             std::round(100 * progress) <<
@@ -69,10 +69,10 @@ class NB_ProgressBar: public ProgressBar{
                 "| elapsed: " << pas_time_string << pas_empty_space;
           std::string temp_str = strs.str();
           char const* char_type = temp_str.c_str();
-          // print: remove old and replace with new
+          // Print: remove old and replace with new
           REprintf("\r");
           REprintf("%s", char_type);
-          // finalize display when ready
+          // Finalize display when ready
           if(progress == 1) {
             _finalize_display();
           }
@@ -84,7 +84,7 @@ class NB_ProgressBar: public ProgressBar{
 
       protected: // ==== other instance methods =====
 
-        // convert double with seconds to time string
+        // Convert double with seconds to time string
         std::string _time_to_string(double seconds) {
 
           int time = (int) seconds;
@@ -106,13 +106,13 @@ class NB_ProgressBar: public ProgressBar{
           std::string time_str = time_strs.str();
           return time_str;
         }
-        // update the ticks display corresponding to progress
+        // Update the ticks display corresponding to progress
         std::string _current_ticks_display(float progress) {
           int nb_ticks = _compute_nb_ticks(progress);
           std::string cur_display = _construct_ticks_display_string(nb_ticks);
           return cur_display;
         }
-        // construct progress bar display
+        // Construct progress bar display
         std::string _construct_ticks_display_string(int nb) {
           std::stringstream ticks_strs;
           for (int i = 0; i < (_max_ticks - 1); ++i) {
@@ -125,25 +125,23 @@ class NB_ProgressBar: public ProgressBar{
           std::string tick_space_string = ticks_strs.str();
           return tick_space_string;
         }
-        // finalize
+        // Finalize
         void _finalize_display() {
           if (_finalized) return;
-          // REprintf("\n");
           flush_console();
           _finalized = true;
         }
-        // compute number of ticks according to progress
+        // Compute number of ticks according to progress
         int _compute_nb_ticks(float progress) {
           return int(progress * _max_ticks);
         }
-        // N.B: does nothing on windows
         void flush_console() {
 #if !defined(WIN32) && !defined(__WIN32) && !defined(__WIN32__)
           R_FlushConsole();
 #endif
         }
         private: // ===== INSTANCE VARIABLES ====
-          int _max_ticks;   		// the total number of ticks to print
+          int _max_ticks;   		// The total number of ticks to print
           bool _finalized;
           bool _timer_flag;
           time_t start,end;
