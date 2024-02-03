@@ -111,7 +111,7 @@ el_test <- function(formula, data, lhs, rhs = NULL, maxit = 1e+04,
   # General block design
   gbd <-
     list("model_matrix" = x, "incidence_matrix" = c, "trt" = levels(mf[[2L]]))
-  class(gbd) <- c("gbd", "melt")
+  class(gbd) <- c("gbd", "elgbd")
 
   # Test for lhs and rhs
   if (is.null(rhs)) {

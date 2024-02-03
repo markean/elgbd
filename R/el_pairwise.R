@@ -122,7 +122,7 @@ el_pairwise <- function(formula, data, control = NULL, k = 1L, alpha = 0.05,
   # General block design
   gbd <-
     list("model_matrix" = x, "incidence_matrix" = c, "trt" = levels(mf[[2L]]))
-  class(gbd) <- c("gbd", "melt")
+  class(gbd) <- c("gbd", "elgbd")
   # Check whether all pairwise comparisons or comparisons to control
   match.arg(control, gbd$trt)
   if (is.null(control)) {

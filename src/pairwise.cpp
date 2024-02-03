@@ -115,6 +115,6 @@ Rcpp::List pairwise(const Eigen::MatrixXd& x,
   result["level"] = level;
   result["method"] = method;
   result["B"] = bootstrap_statistics_pairwise.size();
-  result.attr("class") = Rcpp::CharacterVector({"pairwise", "melt"});
+  result.attr("class") = Rcpp::CharacterVector({"pairwise", "elgbd"});
   return result;
 }

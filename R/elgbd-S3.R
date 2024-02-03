@@ -1,19 +1,19 @@
 #' @export
 print.el_aov <- function(x, ...) {
-  stopifnot(inherits(x, "melt"))
+  stopifnot(inherits(x, "elgbd"))
   cat("Call:\n")
   dput(x$call, control = NULL)
-  cat("\nminimizer:\n")
-  cat(format(round(x$optim$par, 4), scientific = FALSE))
+  cat("\nMinimizer:\n")
+  cat(format(round(x$optim$par, 4L), scientific = FALSE))
   cat("\n\n")
-  cat("statistic:\n")
-  cat(format(round(x$optim$n2logLR, 4), scientific = FALSE))
+  cat("Statistic:\n")
+  cat(format(round(x$optim$n2logLR, 4L), scientific = FALSE))
   cat("\n\n")
 }
 
 #' @export
 print.pairwise <- function(x, ...) {
-  stopifnot(inherits(x, "melt"))
+  stopifnot(inherits(x, "elgbd"))
   cat("\n\tEmpirical Likelihood Multiple Tests\n\n")
   if (is.null(x$control)) {
     cat("All pairwise comparisons\n\n")
