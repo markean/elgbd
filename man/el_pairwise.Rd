@@ -69,7 +69,7 @@ el_pairwise(clo ~ trt | blk, data = clothianidin, B = 1000)
 
 # Comparisons with control
 el_pairwise(clo ~ trt | blk,
-  data = clothianidin, control = "Naked", method = "NB", B = 500
+  control = "Naked", data = clothianidin, B = 1000
 )
 }
 \references{

@@ -60,7 +60,7 @@ el_pairwise(clo ~ trt | blk, data = clothianidin, B = 1000)
 
 # Comparisons with control
 el_pairwise(clo ~ trt | blk,
-  data = clothianidin, control = "Naked", method = "NB", B = 50
+  data = clothianidin, control = "Naked", method = "NB", B = 1000
 )
 
 # Test for equal means

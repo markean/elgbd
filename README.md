@@ -81,21 +81,21 @@ el_pairwise(clo ~ trt | blk, data = clothianidin, B = 1000)
 
 # Comparisons with control
 el_pairwise(clo ~ trt | blk,
-  data = clothianidin, control = "Naked", method = "NB", B = 50
+  data = clothianidin, control = "Naked", method = "NB", B = 1000
 )
 #> 
 #>  Empirical Likelihood Multiple Tests
 #> 
 #> Comparisons with control
 #> 
-#>                   Estimate Chisq Lwr.ci Upr.ci  p.adj    
-#> Fungicide - Naked   1.0525 14.10 0.3735 1.9508 <0.001 ***
-#> Low - Naked         1.6794 15.94 0.7947 2.5312 <0.001 ***
-#> High - Naked        3.1726 42.80 1.8981 4.3823 <0.001 ***
+#>                   Estimate Chisq Lwr.ci Upr.ci p.adj   
+#> Fungicide - Naked   1.0525 14.10 0.3506 1.9900 0.005 **
+#> Low - Naked         1.6794 15.94 0.7586 2.5646 0.004 **
+#> High - Naked        3.1726 42.80 1.8489 4.4282 0.003 **
 #> ---
 #> Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 #> 
-#> k: 1, level: 0.05, method: NB, cutoff: 6.8263
+#> k: 1, level: 0.05, method: NB, cutoff: 6.3291
 
 # Test for equal means
 el_test(clo ~ trt | blk, clothianidin,
